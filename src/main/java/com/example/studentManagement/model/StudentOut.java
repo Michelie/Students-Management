@@ -41,6 +41,23 @@ public class StudentOut { //class for formatting the result of student after fil
 
     private String phone;
     private String profilepicture;
+    private Double avgscore;
+
+    public Integer getSatscore() {
+        return satscore;
+    }
+
+    public Double getGraduationscore() {
+        return graduationscore;
+    }
+
+    public String getProfilepicture() {
+        return profilepicture;
+    }
+
+    public Double getAvgscore() {
+        return avgscore;
+    }
 
     public Integer getSatScore() {
         return satscore;
