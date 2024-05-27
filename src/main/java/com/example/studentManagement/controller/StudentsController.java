@@ -3,8 +3,10 @@ package com.example.studentManagement.controller;
 import com.example.studentManagement.model.*;
 import com.example.studentManagement.repository.StudentService;
 import com.example.studentManagement.util.HandsonException;
+import com.example.studentManagement.util.SmsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.collections4.IteratorUtils;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -22,6 +24,7 @@ import static com.example.studentManagement.util.FPS.FPSBuilder.aFPS;
 import static com.example.studentManagement.util.FPSCondition.FPSConditionBuilder.aFPSCondition;
 import static com.example.studentManagement.util.FPSField.FPSFieldBuilder.aFPSField;
 import static com.example.studentManagement.util.Strings.likeLowerOrNull;
+import static org.apache.logging.log4j.util.Strings.isEmpty;
 
 @RestController
 @RequestMapping("/api/students")
@@ -35,6 +38,9 @@ public class StudentsController {
 
     @Autowired
     ObjectMapper om;
+
+    @Autowired
+    SmsService smsService;
 
     //get student by id
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -117,6 +123,19 @@ public class StudentsController {
                 .itemClass(StudentOut.class)
                 .build().exec(em, om);
         return ResponseEntity.ok(res);
+    }
+
+    @RequestMapping(value = "/sms/all", method = RequestMethod.POST)
+    public ResponseEntity<?> smsAll(@RequestParam String text)
+    {
+        new Thread(()-> {
+            IteratorUtils.toList(studentService.all().iterator())
+                    .parallelStream()
+                    .map(student -> student.getPhone())
+                    .filter(phone -> !isEmpty(phone))
+                    .forEach(phone -> smsService.send(text, phone));
+        }).start();
+        return new ResponseEntity<>("SENDING", HttpStatus.OK);
     }
 
 }
