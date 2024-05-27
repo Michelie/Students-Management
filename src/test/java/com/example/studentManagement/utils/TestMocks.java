@@ -1,5 +1,6 @@
 package com.example.studentManagement.utils;
 
+import com.example.studentManagement.util.SmsService;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -49,12 +50,12 @@ public class TestMocks {
     }
 
 
-//    @Bean
-//    @Primary
-//    public SmsService smsService() {
-//        SmsService service = Mockito.mock(SmsService.class);
-//        return service;
-//    }
+    @Bean
+    @Primary
+    public SmsService smsService() {
+        SmsService service = Mockito.mock(SmsService.class);
+        return service;
+    }
 //    @Bean
 //    @Primary
 //    public AWSService awsService() {

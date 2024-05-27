@@ -49,7 +49,7 @@ public class TestContext {
 
         for (int i = 0; i < numStudents; i++) {
             vars.put("fullName", "Student-" + testUuid() + Strings.padStart(Integer.toString(i), 5, '0'));
-            vars.put("phone", i % 2 == 0 ? "" : "052523645" + String.valueOf(i));
+            vars.put("phone", i % 2 == 0 ? "" : "0528376806" + String.valueOf(i));
             vars.put("satScore",  String.valueOf(500 + 20*i));
             vars.put("graduationScore", String.valueOf(70 + 2*i));
             studentsController.insertStudent(get("json/student.json", StudentIn.class));

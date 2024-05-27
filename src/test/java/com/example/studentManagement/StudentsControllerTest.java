@@ -1,6 +1,7 @@
 package com.example.studentManagement;
 
 import com.example.studentManagement.controller.StudentsController;
+import com.example.studentManagement.util.SmsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.example.studentManagement.utils.TestContext;
@@ -40,8 +41,8 @@ class StudentsControllerTest {
     @Autowired
     private StudentsController sc;
 
-//    @Autowired
-//    private SmsService smsService;
+    @Autowired
+    private SmsService smsService;
 //
 //    @Autowired
 //    private AWSService awsService;
@@ -64,13 +65,13 @@ class StudentsControllerTest {
         assertThat(aStudentSearch(sc, c.testUuid()).toSatScore(600).execute().getData().size(), is(6));
     }
 
-//    @Test
-//    void checkSmsSent() throws Exception {
-//        c.givenStudents(10, sc);
-//        sc.smsAll("hi");
-//        Thread.sleep(1000);
-//        verify(smsService, atLeastOnce()).send(any(),any());
-//    }
+    @Test
+    void checkSmsSent() throws Exception {
+        c.givenStudents(10, sc);
+        sc.smsAll("hi");
+        Thread.sleep(1000);
+        verify(smsService, atLeastOnce()).send(any(),any());
+    }
 
 //    @Test
 //    void checkPictureUpload() throws Exception {
